@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
+sys.path.insert(0, "../")
 
 import qgmap
 
@@ -15,8 +17,6 @@ elif qgmap.get_backed() == "PyQt4":
     from PyQt4.QtGui import *
 
 if __name__ == '__main__':
-    import sys
-
 
     def goCoords():
         def resetError():

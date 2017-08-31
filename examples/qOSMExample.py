@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
+sys.path.insert(0, "../")
 
 import qOSM
 qOSM.use("PyQt4")
@@ -15,8 +17,6 @@ elif qOSM.get_backed() == "PyQt4":
 
 
 if __name__ == '__main__':
-    import sys
-
 
     def goCoords():
         def resetError():

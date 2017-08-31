@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import random
+import sys
+sys.path.insert(0, "../")
 
 import qOSM
 qOSM.use("PyQt4")
@@ -23,7 +25,6 @@ def onTimeout(map, marker):
     map.centerAt(lat, lng)
 
 if __name__ == '__main__':
-    import sys
 
     app = QApplication(sys.argv)
     w = QDialog()
