@@ -1,7 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from qOSM import *
+import qOSM
+qOSM.use("PyQt4")
+
+from qOSM.common import QOSM
+
+if qOSM.get_backed() == "PyQt5":
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+elif qOSM.get_backed() == "PyQt4":
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+
 
 if __name__ == '__main__':
     import sys
@@ -15,7 +26,7 @@ if __name__ == '__main__':
             latitude, longitude = coordsEdit.text().split(",")
         except ValueError:
             coordsEdit.setStyleSheet("color: red;")
-            QtCore.QTimer.singleShot(500, resetError)
+            QTimer.singleShot(500, resetError)
         else:
             map.centerAt(latitude, longitude)
             # map.moveMarker("MyDragableMark", latitude, longitude)
@@ -56,12 +67,12 @@ if __name__ == '__main__':
         print("DClick on ", latitude, longitude)
 
 
-    app = QtWidgets.QApplication(sys.argv)
-    w = QtWidgets.QDialog()
-    h = QtWidgets.QVBoxLayout(w)
-    l = QtWidgets.QFormLayout()
+    app = QApplication(sys.argv)
+    w = QDialog()
+    h = QVBoxLayout(w)
+    l = QFormLayout()
     h.addLayout(l)
-    coordsEdit = QtWidgets.QLineEdit()
+    coordsEdit = QLineEdit()
     l.addRow('Coords:', coordsEdit)
     coordsEdit.editingFinished.connect(goCoords)
     map = QOSM(w)
@@ -75,8 +86,8 @@ if __name__ == '__main__':
     map.markerRightClicked.connect(onMarkerRClick)
     h.addWidget(map)
     map.setSizePolicy(
-        QtWidgets.QSizePolicy.MinimumExpanding,
-        QtWidgets.QSizePolicy.MinimumExpanding)
+        QSizePolicy.MinimumExpanding,
+        QSizePolicy.MinimumExpanding)
     w.show()
 
     map.waitUntilReady()

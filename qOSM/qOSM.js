@@ -108,3 +108,15 @@ function osm_deleteMarker(key) {
     map.removeLayer(markers[key]);
     delete markers[key];
 }
+
+function osm_moveMarker(key, latitude, longitude) {
+    marker = markers[key];
+    var newLatLng = new L.LatLng(latitude, longitude);
+    marker.setLatLng(newLatLng);
+}
+
+function osm_posMarker(key) {
+    marker = markers[key];
+    return [marker.getLatLng().lat, marker.getLatLng().lng];
+}
+
