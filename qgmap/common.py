@@ -149,7 +149,8 @@ class QGoogleMap(QWebView):
         try:
             latitude, longitude = self.geocode(location)
         except GeoCoder.NotFoundError:
-            return None
+            print("Not found {}".format(location))
+            return None, None
         self.centerAt(latitude, longitude)
         return latitude, longitude
 

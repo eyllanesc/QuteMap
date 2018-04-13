@@ -111,22 +111,24 @@ if __name__ == '__main__':
 
     # gmap.centerAt(41.35,2.05)
     gmap.setZoom(15)
-    coords = gmap.centerAtAddress("Lima Peru")
-    # Many icons at: https://sites.google.com/site/gmapsdevelopment/
-    gmap.addMarker("MyDragableMark", *coords, **dict(
-        icon="http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_red.png",
-        draggable=True,
-        title="Move me!"
-    ))
+    lat, lng = gmap.centerAtAddress("Lima Peru")
+    if lat is not None and lng is not None:
 
-    # Some Static points
-    for place in [
-        "Plaza Ramon Castilla",
-        "Plaza San Martin",
-    ]:
-        gmap.addMarkerAtAddress(place,
-                                icon="http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_gray.png",
-                                )
+	    # Many icons at: https://sites.google.com/site/gmapsdevelopment/
+	    gmap.addMarker("MyDragableMark", *coords, **dict(
+	        icon="http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_red.png",
+	        draggable=True,
+	        title="Move me!"
+	    ))
+
+	    # Some Static points
+	    for place in [
+	        "Plaza Ramon Castilla",
+	        "Plaza San Martin",
+	    ]:
+	        gmap.addMarkerAtAddress(place,
+	                                icon="http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_gray.png",
+	                                )
     # gmap.setZoom(15)
 
     sys.exit(app.exec_())
