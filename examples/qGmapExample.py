@@ -115,20 +115,15 @@ if __name__ == '__main__':
     if lat is not None and lng is not None:
 
 	    # Many icons at: https://sites.google.com/site/gmapsdevelopment/
-	    gmap.addMarker("MyDragableMark", *coords, **dict(
+	    gmap.addMarker("MyDragableMark", lat, lng, **dict(
 	        icon="http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_red.png",
 	        draggable=True,
 	        title="Move me!"
 	    ))
 
-	    # Some Static points
-	    for place in [
-	        "Plaza Ramon Castilla",
-	        "Plaza San Martin",
-	    ]:
-	        gmap.addMarkerAtAddress(place,
-	                                icon="http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_gray.png",
-	                                )
+	# Some Static points
+    for place in ["Plaza Ramon Castilla", "Plaza San Martin",]:
+        gmap.addMarkerAtAddress(place, icon="http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_gray.png")
     # gmap.setZoom(15)
 
     sys.exit(app.exec_())
