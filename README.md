@@ -3,13 +3,5 @@
 qgmap
 ====
 
-Qt Google Maps widget for PyQt4 and PyQt5 
+Qt Google Maps and OSM widget for PyQt5 and PySide2
 
-![](img/GmapScreenshot.png) 
-
-qOsm
-====
-
-Open Street Maps widget for PyQt4 and PyQt5 
-
-![](img/OSMScreenshot.png) 
