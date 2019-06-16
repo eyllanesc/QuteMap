@@ -32,7 +32,14 @@ import QuteMap
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc', 
+    'sphinx.ext.viewcode',
+    "sphinx_click.ext",
+    "sphinx.ext.intersphinx",
+    'sphinx.ext.napoleon',
+    'sphinx_autodoc_future_annotations',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -160,4 +167,33 @@ texinfo_documents = [
 ]
 
 
+autodoc_member_order = 'bysource'
+intersphinx_mapping = {'python': ('https://docs.python.org/3',
+                                  (None, 'python-inv.txt'))}
+
+
+from sphinx.ext.autodoc import ClassDocumenter, _
+
+add_line = ClassDocumenter.add_line
+
+
+def add_line_qt_base(self, text, *args, **kwargs):
+    for binding in ("PySide2", "PyQt5"):
+        text = text.replace(binding, "Qt")
+    add_line(self, text, *args, **kwargs)
+
+
+add_directive_header = ClassDocumenter.add_directive_header
+
+
+def add_directive_header_qt_base(self, *args, **kwargs):
+    self.add_line = add_line_qt_base.__get__(self)
+
+    result = add_directive_header(self, *args, **kwargs)
+
+    del self.add_line
+
+    return result
+
+ClassDocumenter.add_directive_header = add_directive_header_qt_base
 
