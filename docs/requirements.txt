@@ -3,3 +3,4 @@ PyQt5==5.12.2
 Jinja2==2.10.1
 sphinx-click==2.2.0
 Click>=6.0
+sphinx-autodoc-future-annotations==0.1.3
