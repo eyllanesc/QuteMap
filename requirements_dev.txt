@@ -15,7 +15,7 @@ PyQt5==5.12.2
 Jinja2==2.10.1
 Click==7.0
 PySide2
-PyQtWebEngine
+PyQtWebEngine==5.12.1
 SIP
 shiboken2
 
