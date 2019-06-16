@@ -3,3 +3,5 @@ Jinja2
 Click
 PySide2
 PyQtWebEngine
+SIP
+shiboken2
