@@ -1,3 +1,5 @@
-PyQt5==5.12.2
-Jinja2==2.10.1
-Click>=6.0
+PyQt5
+Jinja2
+Click
+PySide2
+PyQtWebEngine
