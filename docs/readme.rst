@@ -9,10 +9,9 @@ QuteMap
 .. image:: https://img.shields.io/travis/eyllanesc/QuteMap.svg
         :target: https://travis-ci.org/eyllanesc/QuteMap
 
-.. image:: https://readthedocs.org/projects/QuteMap/badge/?version=latest
-        :target: https://QuteMap.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
+.. image:: https://readthedocs.org/projects/qutemap/badge/?version=latest
+		:target: https://qutemap.readthedocs.io/en/latest/?badge=latest
+		:alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/eyllanesc/QuteMap/shield.svg
      :target: https://pyup.io/repos/github/eyllanesc/QuteMap/
