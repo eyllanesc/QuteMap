@@ -18,3 +18,5 @@ PySide2
 PyQtWebEngine
 SIP
 shiboken2
+
+dataclasses
