@@ -9,7 +9,6 @@ from click.testing import CliRunner
 import os
 
 os.environ["QT_PREFERRED_BINDING"] = "PyQt5"
-from QuteMap import QuteMap
 from QuteMap import cli
 
 
