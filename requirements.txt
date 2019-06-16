@@ -3,7 +3,7 @@ Jinja2==2.10.1
 Click==7.0
 PySide2
 PyQtWebEngine==5.12.1
-SIP
+SIP==4.19.8
 shiboken2
 
 dataclasses
