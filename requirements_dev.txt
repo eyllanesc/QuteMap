@@ -13,7 +13,7 @@ pytest-runner==4.2
 
 PyQt5==5.12.2
 Jinja2==2.10.1
-Click
+Click==7.0
 PySide2
 PyQtWebEngine
 SIP
