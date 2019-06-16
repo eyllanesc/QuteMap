@@ -5,6 +5,7 @@
 [![Build Status](https://img.shields.io/badge/build-unknown-lightgrey.svg?longCache=true)](https://travis-ci.org)
 [![Build Status](https://img.shields.io/badge/build-pending-lightgrey.svg?longCache=true)](https://www.appveyor.com)
 [![Build Coverage](https://img.shields.io/badge/coverage-0%25-lightgrey.svg?longCache=true)](https://codecov.io)
+[![Documentation Status](https://readthedocs.org/projects/qutemap/badge/?version=latest)](https://qutemap.readthedocs.io/en/latest/?badge=latest)
 
 > Maps using Qt WebEngine and Qt WebChannel using PyQt5/PySide2
 
