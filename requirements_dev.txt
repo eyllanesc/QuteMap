@@ -19,4 +19,4 @@ PyQtWebEngine==5.12.1
 SIP==4.19.8
 shiboken2
 
-dataclasses
+dataclasses==0.6
