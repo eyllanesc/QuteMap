@@ -11,10 +11,10 @@ twine==1.12.1
 pytest==3.8.2
 pytest-runner==4.2
 
-PyQt5==5.12.2
-Jinja2==2.10.1
-Click==7.0
-PySide2==5.12.3
-PyQtWebEngine==5.12.1
+PyQt5>=5.12.2
+Jinja2>=2.10.1
+Click>=7.0
+PySide2>=5.12.3
+PyQtWebEngine>=5.12.1
 
 dataclasses

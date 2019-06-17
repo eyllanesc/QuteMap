@@ -18,5 +18,3 @@ plugin module
 
 .. autoclass:: QuteMap.Plugin
    :members:
-
-.. autofunction:: QuteMap.addPluginDirectory

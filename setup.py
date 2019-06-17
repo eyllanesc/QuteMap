@@ -11,7 +11,10 @@ with open('docs/readme.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', ]
+requirements = [
+	'Click>=7.0', 
+	'Jinja2>=2.10.1',
+]
 
 setup_requirements = ['pytest-runner', ]
 
@@ -35,6 +38,11 @@ setup(
         ],
     },
     install_requires=requirements,
+    extras_require={
+        ':python_version == "3.6"': [
+            'dataclasses',
+        ],
+    },
     license="GNU General Public License v3",
     long_description=readme + '\n\n' + history,
     include_package_data=True,

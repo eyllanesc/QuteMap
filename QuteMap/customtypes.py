@@ -3,6 +3,37 @@ import json
 import click
 
 
+class ChoiceOptional(click.Choice):
+    name = "choiceoptional"
+
+    def convert(self, value, param, ctx):
+        # Exact match
+        if value in self.choices:
+            return value
+
+        # Match through normalization and case sensitivity
+        # first do token_normalize_func, then lowercase
+        # preserve original `value` to produce an accurate message in
+        # `self.fail`
+        normed_value = value
+        normed_choices = self.choices
+
+        if ctx is not None and ctx.token_normalize_func is not None:
+            normed_value = ctx.token_normalize_func(value)
+            normed_choices = [
+                ctx.token_normalize_func(choice) for choice in self.choices
+            ]
+
+        if not self.case_sensitive:
+            normed_value = normed_value.lower()
+            normed_choices = [choice.lower() for choice in normed_choices]
+
+        if normed_value in normed_choices:
+            return normed_value
+
+        return value
+
+
 class CoordinateType(click.ParamType):
     name = "coordinate"
 

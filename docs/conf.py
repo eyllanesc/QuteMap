@@ -34,7 +34,7 @@ import QuteMap
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     'sphinx.ext.autodoc', 
-    'sphinx.ext.viewcode',
+    # 'sphinx.ext.viewcode',
     "sphinx_click.ext",
     "sphinx.ext.intersphinx",
     'sphinx.ext.napoleon',
@@ -197,3 +197,12 @@ def add_directive_header_qt_base(self, *args, **kwargs):
 
 ClassDocumenter.add_directive_header = add_directive_header_qt_base
 
+
+html_theme_options = {
+    'description': 'Maps using PyQt5/PySide2',
+    'github_user': 'eyllanesc',
+    'github_repo': 'QuteMap',
+    'github_banner': True,
+    'travis_button': True,
+    'donate_url': 'https://www.paypal.me/eyllanesc',
+}

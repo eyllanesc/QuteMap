@@ -71,7 +71,6 @@ class MapHandler(QtCore.QObject):
         notify=centerChanged,
     )
 
-    @QtCore.Property(int, notify=zoomChanged)
     def zoom(self):
         """Zoom map
 
@@ -81,11 +80,12 @@ class MapHandler(QtCore.QObject):
         """
         return self.m_zoom
 
-    @zoom.setter
-    def zoom(self, zoom):
+    def setZoom(self, zoom):
         if self.m_zoom != zoom and zoom >= 1:
             self.m_map.logger.debug(f"set zoom to map: {zoom}")
             self.m_map.runJavaScript(f"setZoom({zoom})")
+
+    zoom = QtCore.Property(int, fget=zoom, fset=setZoom, notify=zoomChanged)
 
     # Methods that allow to update the properties from js.
 

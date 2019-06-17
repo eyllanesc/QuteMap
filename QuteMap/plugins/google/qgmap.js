@@ -5,8 +5,8 @@ var handler;
 // main init function
 function initialize() {
     var myOptions = {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8
+        center: {lat: 0, lng:0},
+        zoom: 1
     };
     map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
     

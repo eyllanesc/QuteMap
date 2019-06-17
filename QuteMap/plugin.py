@@ -49,12 +49,26 @@ class Plugin:
                     )
                     return plugin
 
+    @staticmethod
+    def addPluginDirectory(directory: str) -> None:
+        """
+        Method that adds plugins directories.
 
-def addPluginDirectory(directory: str) -> None:
-    """
-    Function that adds plugins directories.
+        :param directory: Plugin directory
+        :type directory: str
+        """
+        PLUGIN_DIRS.append(directory)
 
-    :param directory: Plugin directory
-    :type directory: str
-    """
-    PLUGIN_DIRS.append(directory)
+    @staticmethod
+    def getPluginNames() -> List[str]:
+        """ Method that returns the names of the available plugins
+        :rtype: list
+        """
+        names = []
+        for directory in PLUGIN_DIRS:
+            for p in os.listdir(directory):
+                fp = os.path.join(directory, p)
+                config_path = os.path.join(directory, p, "config.json")
+                if os.path.isdir(fp) and os.path.isfile(config_path):
+                    names.append(p)
+        return names

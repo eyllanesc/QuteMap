@@ -8,8 +8,8 @@ from functools import partial
 import click
 
 from . import __version__
-from .customtypes import COORDINATE_TYPE, JSON_TYPE
-
+from .customtypes import COORDINATE_TYPE, JSON_TYPE, ChoiceOptional
+from . import Plugin
 
 app = None
 
@@ -26,11 +26,15 @@ app = None
     help="Center of map, format: 'LAT,LNG'",
     required=True,
 )
+@click.option(
+    "--plugin",
+    default="google",
+    type=ChoiceOptional(Plugin.getPluginNames()),
+    show_default=True,
+    help="Plugin name of map",
+)
 @click.option("--zoom", "-z", default=14, show_default=True, help="Map zoom")
 @click.option("--parameters", type=JSON_TYPE, help="Extra parameters")
-@click.option(
-    "--plugin", default="google", show_default=True, help="Name of plugin"
-)
 @click.option(
     "--markers",
     type=click.Path(exists=True, readable=True),
@@ -51,11 +55,10 @@ app = None
     show_default=True,
     help="Enable logging",
 )
-def main(center, markers, zoom, parameters, plugin, binding, log):
+@click.argument("extra_args", nargs=-1, type=click.UNPROCESSED)
+def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
     """Console script for qutemap.
     """
-    from .plugin import Plugin
-
     if Plugin.getPlugin(plugin) is None:
         click.echo(f"The plugin {plugin!r} was not found")
         return -1
@@ -63,22 +66,27 @@ def main(center, markers, zoom, parameters, plugin, binding, log):
     last_binding = os.environ.get("QT_PREFERRED_BINDING")
     os.environ["QT_PREFERRED_BINDING"] = binding
 
-    from .vendor.Qt import QtWidgets, QtWebEngineWidgets, QtPositioning
+    from .vendor.Qt import QtCore, QtWidgets, QtWebEngineWidgets, QtPositioning
     from .QuteMap import MapPage
 
     def on_load_finished(handler, ok):
         click.echo(f"load finished: {ok}")
         if ok:
-            handler.center = QtPositioning.QGeoCoordinate(*center)
-
-    # print(center, markers, zoom, parameters, plugin, binding, log)
+            c = QtPositioning.QGeoCoordinate(*center)
+            QtCore.QTimer.singleShot(500, lambda: setattr(handler, "center", c))
+            handler.zoom = zoom
+            # handler.center = c
+            click.echo(
+                f"center: {c.toString(QtPositioning.QGeoCoordinate.DegreesMinutesSeconds)}"
+            )
+            click.echo(f"zoom: {zoom}")
 
     global app
     app = QtWidgets.QApplication.instance()
     if app is None:
-        app = QtWidgets.QApplication(sys.argv)
+        app = QtWidgets.QApplication(sys.argv + list(extra_args))
     view = QtWebEngineWidgets.QWebEngineView()
-    view.setWindowTitle(f"{__name__} {__version__}")
+    view.setWindowTitle(f"{__name__} {__version__}: {plugin}")
     page = MapPage(
         plugin, parent=view, parameters=parameters, connect_default_logger=log
     )
@@ -92,6 +100,13 @@ def main(center, markers, zoom, parameters, plugin, binding, log):
     else:
         del os.environ["QT_PREFERRED_BINDING"]
     return res
+
+
+def mock(*args):
+    import time
+
+    time.sleep(5)
+    print(args)
 
 
 if __name__ == "__main__":
