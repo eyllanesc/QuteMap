@@ -81,6 +81,7 @@ def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
             )
             click.echo(f"zoom: {zoom}")
 
+    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     global app
     app = QtWidgets.QApplication.instance()
     if app is None:
@@ -100,13 +101,6 @@ def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
     else:
         del os.environ["QT_PREFERRED_BINDING"]
     return res
-
-
-def mock(*args):
-    import time
-
-    time.sleep(5)
-    print(args)
 
 
 if __name__ == "__main__":
