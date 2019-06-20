@@ -8,8 +8,8 @@ coverage==4.5.3
 Sphinx==2.1.2
 twine==1.13.0
 
-pytest==3.8.2
-pytest-runner==4.2
+pytest==4.6.3
+pytest-runner==5.1
 
 PyQt5>=5.12.2
 Jinja2>=2.10.1
@@ -17,4 +17,4 @@ Click>=7.0
 PySide2>=5.12.3
 PyQtWebEngine>=5.12.1
 
-dataclasses
+dataclasses==0.6
