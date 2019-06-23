@@ -6,7 +6,7 @@ from typing import List
 
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
-PLUGIN_DIRS = [os.path.join(base_dir, "plugins")]
+PLUGIN_DIRS = [os.path.abspath(os.path.join(base_dir, "..", "plugins"))]
 
 
 @dataclass

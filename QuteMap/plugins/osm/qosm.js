@@ -14,7 +14,7 @@ function initialize() {
 	}).addTo(map);
 
 	new QWebChannel(qt.webChannelTransport, function (channel) {
-        handler = channel.objects.map_handler;
+        handler = channel.objects.qutemap_handler;
         init();
     });
     map.on('move', function () {

@@ -12,9 +12,3 @@ QuteMap module
 .. autoclass:: QuteMap.MapHandler
    :members:
    :show-inheritance:
-
-plugin module
--------------
-
-.. autoclass:: QuteMap.Plugin
-   :members:

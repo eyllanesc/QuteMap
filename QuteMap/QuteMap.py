@@ -1,23 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """Main module."""
-import os
-import sys
-import logging
 from typing import Dict
 
-import jinja2
-
-from .vendor.Qt import (
+from .internals.Qt import (
     QtCore,
-    QtWidgets,
     QtWebEngineWidgets,
     QtWebChannel,
     QtPositioning,
 )
 
-from . import utils
-from .plugin import Plugin
+from .internals import log, webenginescheme
+from .internals.plugin import Plugin
 
 
 class MapHandler(QtCore.QObject):
@@ -57,7 +51,7 @@ class MapHandler(QtCore.QObject):
 
     def setCenter(self, position):
         if self.m_center != position and position.isValid():
-            self.m_map.logger.debug(
+            log.qutemap.debug(
                 f"set center to map: {position.toString(QtPositioning.QGeoCoordinate.DegreesMinutesSeconds)}"
             )
             self.m_map.runJavaScript(
@@ -82,7 +76,7 @@ class MapHandler(QtCore.QObject):
 
     def setZoom(self, zoom):
         if self.m_zoom != zoom and zoom >= 1:
-            self.m_map.logger.debug(f"set zoom to map: {zoom}")
+            log.qutemap.debug(f"set zoom to map: {zoom}")
             self.m_map.runJavaScript(f"setZoom({zoom})")
 
     zoom = QtCore.Property(int, fget=zoom, fset=setZoom, notify=zoomChanged)
@@ -94,7 +88,7 @@ class MapHandler(QtCore.QObject):
         """Update the :attr:`.center` property from the map."""
         self.m_center = QtPositioning.QGeoCoordinate(latitude, longitude)
         self.centerChanged.emit(self.m_center)
-        self.m_map.logger.debug(
+        log.qutemap.debug(
             f"update center from map : {self.m_center.toString(QtPositioning.QGeoCoordinate.DegreesMinutesSeconds)}"
         )
 
@@ -102,52 +96,70 @@ class MapHandler(QtCore.QObject):
     def updateZoomFromMap(self, zoom):
         """Update the :attr:`.zoom` property from the map."""
         self.m_zoom = zoom
-        self.m_map.logger.debug(f"update zoom from map: {zoom}")
+        log.qutemap.debug(f"update zoom from map: {zoom}")
         self.zoomChanged.emit(self.m_zoom)
 
 
 class MapPage(QtWebEngineWidgets.QWebEnginePage):
     """Class showing the maps
 
+        :param name: name of map
+        :type name: str 
         :param plugin: name of plugin
         :type plugin: str 
         :param parameters: additional parameters of the map
         :type parameters: dict, None
         :param parent: Constructs an object with parent object parent.
         :type parent: `QObject <https://doc.qt.io/qt-5/qobject.html>`_
-        :param logger: An optional logger.
-        :type logger: :class:`logging.Logger` instance
-        :param connect_default_logger: If true, connects a default logger to the class.
-        :type connect_default_logger: :class:`bool`
+        :param log_enabled: Enable logging
+        :type log_enabled: :class:`bool`
         :rtype: :class:`.MapPage` instance
     """
 
     def __init__(
-        self,
-        plugin,
-        parameters=None,
-        parent=None,
-        logger=None,
-        connect_default_logger=False,
+        self, name, plugin, parameters=None, parent=None, log_enabled=False
     ):
         super().__init__(parent)
-        if logger:
-            self.m_logger = logger
-        elif connect_default_logger:
-            self.m_logger = utils.defaultLogger()
-        else:
-            self.m_logger = utils.DummyLogger()
+        self.m_name = name
+        if log_enabled:
+            log.init_log()
+
         channel = QtWebChannel.QWebChannel(self)
         self.setWebChannel(channel)
         self.m_handler = MapHandler(self)
-        channel.registerObject("map_handler", self.m_handler)
+        channel.registerObject("qutemap_handler", self.m_handler)
+
+        handler = QtWebEngineWidgets.QWebEngineProfile.defaultProfile().urlSchemeHandler(
+            b"qutemap"
+        )
+        if handler is None:
+            handler = webenginescheme.WebEngineUrlSchemeHandler(
+                QtCore.QCoreApplication.instance()
+            )
+            QtWebEngineWidgets.QWebEngineProfile.defaultProfile().installUrlSchemeHandler(
+                b"qutemap", handler
+            )
+
         if parameters is None:
-            parameters = dict()
+            parameters = {}
+
         p = Plugin.getPlugin(plugin)
         if p is not None:
-            self.loadPlugin(p, parameters)
+            parameters["root"] = f"qutemap://{p.name}/{self.name}"
+            handler.parameters[name] = parameters
+            self.load(QtCore.QUrl(f"qutemap://{p.name}/{self.name}/{p.html}"))
+            log.qutemap.debug(f"found plugin: {p}")
         else:
-            self.logger.debug(f"not found plugin: {plugin}")
+            log.qutemap.debug(f"not found plugin: {p}")
+
+    @property
+    def name(self):
+        """name of map
+
+            :getter: Returns the name of map
+            :type: str
+        """
+        return self.m_name
 
     @property
     def handler(self):
@@ -158,48 +170,11 @@ class MapPage(QtWebEngineWidgets.QWebEnginePage):
         """
         return self.m_handler
 
-    @property
-    def logger(self):
-        """logger of class
-
-            :getter: Returns this logger
-            :type: :class:`.logging.Logger`
-        """
-        return self.m_logger
-
-    def loadPlugin(self, plugin: Plugin, parameters: Dict[str, str]):
-        """Function that loads the .html and .js files by passing the additional parameters.
-    	"""
-        environment = jinja2.Environment(
-            loader=jinja2.FileSystemLoader(plugin.path)
-        )
-        for js in plugin.javascripts:
-            js_script = environment.get_template(js).render(parameters)
-            script = QtWebEngineWidgets.QWebEngineScript()
-            script.setName(js)
-            script.setInjectionPoint(
-                QtWebEngineWidgets.QWebEngineScript.DocumentReady
-            )
-            script.setRunsOnSubFrames(True)
-            script.setWorldId(
-                QtWebEngineWidgets.QWebEngineScript.ApplicationWorld
-            )
-            script.setSourceCode(js_script)
-            self.profile().scripts().insert(script)
-        parameters["_"] = lambda x: x
-        html = environment.get_template(plugin.html).render(parameters)
-        self.setHtml(
-            html,
-            QtCore.QUrl.fromLocalFile(
-                os.path.join(plugin.path, f"{plugin.name}.html")
-            ),
-        )
-
     def javaScriptConsoleMessage(self, level, msg, line, source):
         logstring = f"[{source}:{line}] {msg}"
         level_map = {
-            QtWebEngineWidgets.QWebEnginePage.InfoMessageLevel: self.logger.info,
-            QtWebEngineWidgets.QWebEnginePage.WarningMessageLevel: self.logger.warning,
-            QtWebEngineWidgets.QWebEnginePage.ErrorMessageLevel: self.logger.error,
+            QtWebEngineWidgets.QWebEnginePage.InfoMessageLevel: log.js.info,
+            QtWebEngineWidgets.QWebEnginePage.WarningMessageLevel: log.js.warning,
+            QtWebEngineWidgets.QWebEnginePage.ErrorMessageLevel: log.js.error,
         }
         level_map[level](logstring)

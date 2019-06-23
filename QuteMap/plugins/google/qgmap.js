@@ -11,7 +11,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
     
     new QWebChannel(qt.webChannelTransport, function (channel) {
-        handler = channel.objects.map_handler;
+        handler = channel.objects.qutemap_handler;
         init();
     });
     
@@ -26,6 +26,7 @@ function initialize() {
     });
 }
 
+
 function init(){
     var center = map.getCenter();
     handler.updateCenterFromMap(center.lat(), center.lng());
@@ -34,7 +35,7 @@ function init(){
 
 // map
 function setCenter(latitude, longitude){
-    // console.log(`setCenter: ${latitude}, ${longitude}`);
+    console.log(`setCenter: ${latitude}, ${longitude}`);
     var coords = new google.maps.LatLng(latitude, longitude);
     map.setCenter(coords);
 }

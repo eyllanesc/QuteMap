@@ -66,7 +66,13 @@ def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
     last_binding = os.environ.get("QT_PREFERRED_BINDING")
     os.environ["QT_PREFERRED_BINDING"] = binding
 
-    from .vendor.Qt import QtCore, QtWidgets, QtWebEngineWidgets, QtPositioning
+    import QuteMap
+    from .internals.Qt import (
+        QtCore,
+        QtWidgets,
+        QtWebEngineWidgets,
+        QtPositioning,
+    )
     from .QuteMap import MapPage
 
     def on_load_finished(handler, ok):
@@ -81,6 +87,7 @@ def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
             )
             click.echo(f"zoom: {zoom}")
 
+    QuteMap.init()
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     global app
     app = QtWidgets.QApplication.instance()
@@ -88,9 +95,7 @@ def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
         app = QtWidgets.QApplication(sys.argv + list(extra_args))
     view = QtWebEngineWidgets.QWebEngineView()
     view.setWindowTitle(f"{__name__} {__version__}: {plugin}")
-    page = MapPage(
-        plugin, parent=view, parameters=parameters, connect_default_logger=log
-    )
+    page = MapPage("cli", plugin, parameters=parameters, log_enabled=log)
     view.setPage(page)
     view.loadFinished.connect(partial(on_load_finished, page.handler))
     view.resize(640, 480)
