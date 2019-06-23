@@ -27,6 +27,12 @@ _**Note:** This project was initially created by [cookiecutter-git](https://gith
 
 ## Features
 
+- [x] Programatically centering, zooming and manipulate markers
+- [ ] Flexible marker properties (ie. draggable, icon, title…)
+- [ ] Emits signals on user actions: dragged markers, pans or zooms
+- [x] Easy to add map plugins, currently supports googlemaps and osm
+
+
 ## Requirements
 
 ## Installation

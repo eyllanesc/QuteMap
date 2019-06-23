@@ -28,7 +28,7 @@ app = None
 )
 @click.option(
     "--plugin",
-    default="google",
+    default="googlemaps",
     type=ChoiceOptional(Plugin.getPluginNames()),
     show_default=True,
     help="Plugin name of map",
