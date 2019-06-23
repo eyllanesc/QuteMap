@@ -20,7 +20,13 @@ __version__ = "{}.{}.{}".format(
 __all__ = ["QuteMap"]
 
 
-def init():
+def init(log_enabled: bool =False) -> None:
+    """Function used to configure QuteMap, 
+    this must be called before creating an instance of `QApplication <https://doc.qt.io/qt-5/qapplication.html>`_.
+	
+    :param log_enabled: Enable logging
+    :type log_enabled: :class:`bool`
+    """
     QtCompat.qInstallMessageHandler(log.qt_message_handler)
 
     scheme = QtWebEngineCore.QWebEngineUrlScheme(b"qutemap")
@@ -29,3 +35,5 @@ def init():
         | QtWebEngineCore.QWebEngineUrlScheme.LocalAccessAllowed
     )
     QtWebEngineCore.QWebEngineUrlScheme.registerScheme(scheme)
+    if log_enabled:
+        log.init_log()

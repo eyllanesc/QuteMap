@@ -23,12 +23,13 @@ def init_log(log_path=DEFAULT_LOGGER_PATH, log_level=logging.INFO):
             with open(log_path, "rt") as f:
                 config = yaml.safe_load(f.read())
                 logging.config.dictConfig(config)
-        else:
-            logging.basicConfig(level=log_level)
         DEFAULT_LOGGER_CREATED = True
 
 
 def qt_message_handler(msg_type, context, msg):
+    if not DEFAULT_LOGGER_CREATED:
+        return
+
     qt_to_logging = {
         QtCore.QtInfoMsg: logging.INFO,
         QtCore.QtDebugMsg: logging.DEBUG,

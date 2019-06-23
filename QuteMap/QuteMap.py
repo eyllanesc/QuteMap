@@ -111,8 +111,6 @@ class MapPage(QtWebEngineWidgets.QWebEnginePage):
         :type parameters: dict, None
         :param parent: Constructs an object with parent object parent.
         :type parent: `QObject <https://doc.qt.io/qt-5/qobject.html>`_
-        :param log_enabled: Enable logging
-        :type log_enabled: :class:`bool`
         :rtype: :class:`.MapPage` instance
     """
 
@@ -121,8 +119,6 @@ class MapPage(QtWebEngineWidgets.QWebEnginePage):
     ):
         super().__init__(parent)
         self.m_name = name
-        if log_enabled:
-            log.init_log()
 
         channel = QtWebChannel.QWebChannel(self)
         self.setWebChannel(channel)

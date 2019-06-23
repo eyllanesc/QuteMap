@@ -87,7 +87,7 @@ def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
             )
             click.echo(f"zoom: {zoom}")
 
-    QuteMap.init()
+    QuteMap.init(log_enabled=log)
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
     global app
     app = QtWidgets.QApplication.instance()
@@ -95,7 +95,7 @@ def main(center, plugin, zoom, parameters, markers, binding, log, extra_args):
         app = QtWidgets.QApplication(sys.argv + list(extra_args))
     view = QtWebEngineWidgets.QWebEngineView()
     view.setWindowTitle(f"{__name__} {__version__}: {plugin}")
-    page = MapPage("cli", plugin, parameters=parameters, log_enabled=log)
+    page = MapPage("cli", plugin, parameters=parameters)
     view.setPage(page)
     view.loadFinished.connect(partial(on_load_finished, page.handler))
     view.resize(640, 480)

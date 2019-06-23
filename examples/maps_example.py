@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     load_dotenv(verbose=True)
 
-    QuteMap.init()
+    QuteMap.init(log_enabled=True)
 
     app = QtWidgets.QApplication(sys.argv)
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     view1.setPage(page1)
 
     view2 = QtWebEngineWidgets.QWebEngineView()
-    page2 = QuteMap.MapPage("osm1", "osm", log_enabled=log_enabled)
+    page2 = QuteMap.MapPage("osm1", "osm")
     view2.setPage(page2)
 
     w = QtWidgets.QWidget()

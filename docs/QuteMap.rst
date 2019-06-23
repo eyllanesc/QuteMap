@@ -4,6 +4,8 @@ Documentation
 QuteMap module
 --------------
 
+.. autofunction:: QuteMap.init
+
 .. autoclass:: QuteMap.MapPage
    :members:
    :show-inheritance:
