@@ -1,4 +1,8 @@
 {
 	"html": "index.html",
-	"javascripts": ["qosm.js"]
+	"javascripts": ["qosm.js"],
+	"keys": {
+		"center": [-12.046374, -77.042793],
+		"zoom": 8
+	}
 }

@@ -24,7 +24,7 @@ if __name__ == "__main__":
     view1 = QtWebEngineWidgets.QWebEngineView()
     page1 = QuteMap.MapPage(
         "google1",
-        "google",
+        "googlemaps",
         parameters={"API_KEY": os.getenv("GOOGLE_API_KEY")},
         log_enabled=log_enabled,
     )
@@ -34,10 +34,11 @@ if __name__ == "__main__":
     page2 = QuteMap.MapPage("osm1", "osm")
     view2.setPage(page2)
 
-    w = QtWidgets.QWidget()
-    hlay = QtWidgets.QHBoxLayout(w)
-    hlay.addWidget(view1)
-    hlay.addWidget(view2)
+    w = QtWidgets.QMainWindow()
+    splitter = QtWidgets.QSplitter()
+    splitter.addWidget(view1)
+    splitter.addWidget(view2)
+    w.setCentralWidget(splitter)
     w.resize(640, 480)
     w.show()
     sys.exit(app.exec_())

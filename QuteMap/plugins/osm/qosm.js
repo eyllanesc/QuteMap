@@ -8,7 +8,7 @@ function initialize() {
     map.on('load', function(){
         console.log("loading");
     });
-    map.setView([0, 0], 1);
+    map.setView({{center}}, {{zoom}});
 	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 	}).addTo(map);

@@ -24,9 +24,9 @@ class WebEngineUrlSchemeHandler(QtWebEngineCore.QWebEngineUrlSchemeHandler):
             if len(paths) == 2:
                 name, html = paths
                 if html in [p.html] + p.javascripts:
-                    res = env.get_template(html).render(
-                        self.parameters.get(name, {})
-                    )
+                    d = p.keys
+                    d.update(self.parameters.get(name, {}))
+                    res = env.get_template(html).render(d)
                     log.scheme.debug(res)
                     buf = QtCore.QBuffer(parent=self)
                     request.destroyed.connect(buf.deleteLater)

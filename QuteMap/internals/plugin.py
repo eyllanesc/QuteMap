@@ -21,11 +21,14 @@ class Plugin:
         :type html: str
         :param javascripts: Name of the javascripts files
         :type javascripts: List[str]
+        :param keys: Keys
+        :type keys: dict
         :rtype: :class:`.Plugin` instance
     """
 
     name: str
     path: str
+    keys: dict
     html: str
     javascripts: List[str]
 
@@ -45,7 +48,11 @@ class Plugin:
                 with open(config_filename) as f:
                     config = json.load(f)
                     plugin = Plugin(
-                        name, plugin_path, config["html"], config["javascripts"]
+                        name,
+                        plugin_path,
+                        config["keys"],
+                        config["html"],
+                        config["javascripts"],
                     )
                     return plugin
 
