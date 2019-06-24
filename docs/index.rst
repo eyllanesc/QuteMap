@@ -1,6 +1,3 @@
-Welcome to QuteMap's documentation!
-======================================
-
 .. include:: readme.rst
 
 .. toctree::

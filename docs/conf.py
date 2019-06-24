@@ -39,7 +39,9 @@ extensions = [
     "sphinx.ext.intersphinx",
     'sphinx.ext.napoleon',
     'sphinx_autodoc_future_annotations',
+    'm2r',
 ]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,8 +49,8 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
+# source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
@@ -205,4 +207,5 @@ html_theme_options = {
     'github_banner': True,
     'travis_button': True,
     'donate_url': 'https://www.paypal.me/eyllanesc',
+    'fixed_sidebar': True,
 }
