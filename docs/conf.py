@@ -207,5 +207,5 @@ html_theme_options = {
     'github_banner': True,
     'travis_button': True,
     'donate_url': 'https://www.paypal.me/eyllanesc',
-    # 'fixed_sidebar': True,
+    "fixed_sidebar": True,
 }
