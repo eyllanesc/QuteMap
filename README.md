@@ -51,23 +51,23 @@ $ python setup.py install
 
 ## Development
 
-See [CONTRIBUTING](CONTRIBUTING.rst)
+See [CONTRIBUTING](https://github.com/eyllanesc/QuteMap/blob/master/CONTRIBUTING.rst)
 
 ### Future
 
-See [ROADMAP](ROADMAP.md)
+See [ROADMAP](https://github.com/eyllanesc/QuteMap/blob/master/ROADMAP.md)
 
 ### History
 
-See [HISTORY](HISTORY.rst)
+See [HISTORY](https://github.com/eyllanesc/QuteMap/blob/master/HISTORY.rst)
 
 ### Community
 
-See [CODE OF CONDUCT](CODE_OF_CONDUCT.md)
+See [CODE OF CONDUCT](https://github.com/eyllanesc/QuteMap/blob/master/CODE_OF_CONDUCT.md)
 
 ## License
 
-Free software: [GNU General Public License v3](LICENSE)
+Free software: [GNU General Public License v3](https://github.com/eyllanesc/QuteMap/blob/master/LICENSE)
 
 
 ## Credits
